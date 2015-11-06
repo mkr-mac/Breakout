@@ -82,6 +82,7 @@ class Bricks
                         }
                         revY = true;
                     }
+                    SoundManager.engine.Play2D(@"sounds\hit.wav");
                 }
             }
         }
