@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System;
 
 public class Breakout : AD2Game
 {
@@ -66,8 +67,6 @@ public class Breakout : AD2Game
     {
         //primarySpriteBatch.drawTexture(background, 0, 0);
 
-        //level.drawBase(primarySpriteBatch,0, 0);
-
         player.draw(primarySpriteBatch);
 
         bricks.draw(primarySpriteBatch);
@@ -83,8 +82,8 @@ public class Breakout : AD2Game
         player = new Paddle();
         balls = new Balls();
 
-        //TODO : should not need to pass screen width or height
-        //level = new FlatMap("map/map.xml", Breakout.baseWidth, Breakout.baseHeight);
+        //starts music
+        SoundManager.engine.Play2D(@"sounds\macplus.ogg", true);
 
     }
 }

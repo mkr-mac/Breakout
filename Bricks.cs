@@ -85,6 +85,5 @@ class Bricks
                 }
             }
         }
-        //TODO: collision
     }
 }
