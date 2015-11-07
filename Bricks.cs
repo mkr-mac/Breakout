@@ -36,10 +36,12 @@ class Bricks
 
         brick = new AnimationSet(@"brick\brick.xml");
         brick.autoAnimate("shimmer", 0);
+        brick.speed = 5;
     }
 
     public void draw(AD2SpriteBatch sb)
     {
+        brick.update();
         for (int i = 0; i < bricksX; i++)
         {
             for (int j = 0; j < bricksY; j++)
