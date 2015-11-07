@@ -12,30 +12,33 @@ public class Breakout : AD2Game
     //the ball
     Balls balls;
 
-    // This game's level.
-    //public FlatMap level;
-
+    //speed the game runs at (1/gameSpeed = FPS)
+    public static readonly int gameSpeed = 16;
     // Game Dims.
     public static readonly int baseWidth = 320;
     public static readonly int baseHeight = 224;
     public static readonly int stageWidth = 250;
 
 
-    public Breakout() : base(baseWidth, baseHeight, 6)
+    public Breakout() : base(baseWidth, baseHeight, gameSpeed)
     {
         //lol stub constructor
     }
 
     public static bool collide(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2 )
     {
+        //Check for any collision
         return !(x1 > x2 + w2 ||
                 y1 > y2 + h2 ||
                 x2 > x1 + w1 ||
                 y2 > y1 + h1);
     }
 
+    
     public static bool collideX(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
     {
+        //Ckeck for collision on the sides
+        //TODO: Fix this mess!
         return !(((x1 - (x2 + (w2 / 2)))/ (w2 / 2)) > (((y2 + (h2 / 2)) - (y1 + h1)) / (h2 / 2)) ||
             ((x1 - (x2 + (w2 / 2))) / (w2 / 2)) > ((y1 - (y2 - (h2 / 2))) / (h2 / 2)) ||
             ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) > (y1 - ((y2 + (h2 / 2))) / (h2 / 2))) ||
@@ -44,6 +47,8 @@ public class Breakout : AD2Game
 
     public static bool collideY(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
     {
+        //Ckeck for collision on the top or bottom
+        //TODO: Fix this mess!
         return !(((x1 - (x2 + (w2 / 2))) / (w2 / 2)) < (((y2 + (h2 / 2)) - (y1 + h1)) / (h2 / 2)) ||
             ((x1 - (x2 + (w2 / 2))) / (w2 / 2)) < ((y1 - (y2 - (h2 / 2))) / (h2 / 2)) ||
             ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) < (y1 - ((y2 + (h2 / 2))) / (h2 / 2))) ||
@@ -56,7 +61,7 @@ public class Breakout : AD2Game
         //update the player.
         player.update(this,keyboardState);
 
-        //update the baddies.
+        //update the bricks
         bricks.update(this);
 
         balls.update(this);
@@ -65,8 +70,6 @@ public class Breakout : AD2Game
 
     protected override void AD2Draw(AD2SpriteBatch primarySpriteBatch)
     {
-        //primarySpriteBatch.drawTexture(background, 0, 0);
-
         player.draw(primarySpriteBatch);
 
         bricks.draw(primarySpriteBatch);

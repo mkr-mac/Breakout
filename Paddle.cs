@@ -12,7 +12,7 @@ class Paddle
     int width = 41;
     int height = 10;
 
-    double speed = 1;
+    double speed = 2;
 
     Texture2D background;
     Texture2D paddle;
