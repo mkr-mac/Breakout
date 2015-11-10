@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-class Balls
+class Ball
 {
 
     public static double positionX = 45;
@@ -19,6 +19,7 @@ class Balls
     bool paused = false;
     //time in seconds to hold the ball in place
     double pauseTimer = 3;
+    readonly double defaultPauseTimer = 3;
 
     //angle ball is moving in deg.
     public static double theta = 45;
@@ -30,7 +31,7 @@ class Balls
 
     Texture2D ball;
 
-    public Balls()
+    public Ball()
     {
         ball = Utils.TextureLoader("ball.png");
     }
@@ -39,9 +40,11 @@ class Balls
     {
         if (!dead)
             sb.drawTexture(ball, (int)positionX, (int)positionY);
+        else
+            Utils.defaultFont.draw(sb, "Game Over", 40, 40, Color.Red, 4);
     }
 
-    public void update(Breakout world)
+    public void update(Breakout world, int ms)
     {
         if (!paused)
         {
@@ -52,16 +55,16 @@ class Balls
                 speedX = -speedX;
             if (positionY <= 0)
                 speedY = -speedY;
-            if (positionY >= Breakout.baseHeight)
+            else if (positionY >= Breakout.baseHeight)
                 ballOut();
         }else
         {
-            pauseTimer -= (1 / (double)Breakout.gameSpeed);
-            Console.Out.WriteLine(1/Breakout.gameSpeed);
+            pauseTimer -= (double)ms/1000;
             if (pauseTimer <= 0)
             {
                 paused = false;
-                pauseTimer = 3;
+                //dirty hardcode
+                pauseTimer = defaultPauseTimer;
             }
         }
     }

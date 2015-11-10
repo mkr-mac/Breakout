@@ -10,7 +10,7 @@ public class Breakout : AD2Game
     //boolean array of bricks
     Bricks bricks;
     //the ball
-    Balls balls;
+    Ball ball;
 
     //speed the game runs at (1/gameSpeed = FPS)
     public static readonly int gameSpeed = 16;
@@ -23,6 +23,7 @@ public class Breakout : AD2Game
     public Breakout() : base(baseWidth, baseHeight, gameSpeed)
     {
         //lol stub constructor
+        Renderer.resolution = Renderer.Resolution.WINDOWED;
     }
 
     public static bool collide(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2 )
@@ -49,9 +50,9 @@ public class Breakout : AD2Game
     {
         //Ckeck for collision on the top or bottom
         //TODO: Fix this mess!
-        return !(((x1 - (x2 + (w2 / 2))) / (w2 / 2)) < (((y2 + (h2 / 2)) - (y1 + h1)) / (h2 / 2)) ||
+        return !(((x1 - (x2 + (w2 / 2))) / (w2 / 2)) > (((y2 + (h2 / 2)) - (y1 + h1)) / (h2 / 2)) ||
             ((x1 - (x2 + (w2 / 2))) / (w2 / 2)) < ((y1 - (y2 - (h2 / 2))) / (h2 / 2)) ||
-            ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) < (y1 - ((y2 + (h2 / 2))) / (h2 / 2))) ||
+            ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) > (y1 - ((y2 + (h2 / 2))) / (h2 / 2))) ||
             ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) < (((y2 + (h2 / 2)) - (y1 + w1)) / (h2 / 2))));
     }
 
@@ -64,7 +65,8 @@ public class Breakout : AD2Game
         //update the bricks
         bricks.update(this);
 
-        balls.update(this);
+        //update the bricks
+        ball.update(this, ms);
         
     }
 
@@ -74,7 +76,7 @@ public class Breakout : AD2Game
 
         bricks.draw(primarySpriteBatch);
 
-        balls.draw(primarySpriteBatch);
+        ball.draw(primarySpriteBatch);
         
     }
 
@@ -83,7 +85,7 @@ public class Breakout : AD2Game
         bricks = new Bricks();
         //make bricks
         player = new Paddle();
-        balls = new Balls();
+        ball = new Ball();
 
         //starts music
         SoundManager.engine.Play2D(@"sounds\macplus.ogg", true);

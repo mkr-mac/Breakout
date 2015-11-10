@@ -53,7 +53,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Balls.cs" />
+    <Compile Include="Ball.cs" />
     <Compile Include="Paddle.cs" />
     <Compile Include="Breakout.cs" />
     <Compile Include="Bricks.cs" />

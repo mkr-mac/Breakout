@@ -47,10 +47,10 @@ class Paddle
                 positionX = Breakout.stageWidth - width;
         }
         
-        if ((Breakout.collide((int)Balls.positionX, (int)Balls.positionY, Balls.size, Balls.size, (int)positionX, positionY, width, height)))
+        if ((Breakout.collide((int)Ball.positionX, (int)Ball.positionY, Ball.size, Ball.size, (int)positionX, positionY, width, height)))
         {
             if(!noStick)
-                Balls.speedY = -(Balls.speedY);
+                Ball.speedY = -(Ball.speedY);
             noStick = true;
         }else
             noStick = false;

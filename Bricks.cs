@@ -6,18 +6,25 @@ using System.Text;
 
 class Bricks
 {
+    //array of the state of the bricks
     bool[,] brickLive;
+    //array storing the colors of the bricks
     Color[,] brickColor;
 
+    //Number of bricks across
     int bricksX = 12;
+    //number of bricks high
     int bricksY = 10;
 
+    //Size of the bricks
     int width = 20;
     int height = 10;
 
+    //extra spacing on the left side/top in the placement of bricks
     int spaceX = 5;
     int spaceY = 0;
 
+    //animation set for the bricks
     AnimationSet brick;
 
     public Bricks()
@@ -30,7 +37,7 @@ class Bricks
             for (int j = 0; j < bricksY; j++)
             {
                 brickLive[i, j] = true;
-                brickColor[i, j] = Color.Blue;
+                brickColor[i, j] = Color.SteelBlue;
             }
         }
 
@@ -48,7 +55,7 @@ class Bricks
             {
                 if (brickLive[i, j])
                 {
-                    brick.draw(sb, (i * width) + spaceX, (j * height) + spaceY);
+                    brick.draw(sb, (i * width) + spaceX, (j * height) + spaceY, brickColor[i,j]);
                 }
             }
         }
@@ -62,15 +69,15 @@ class Bricks
         {
             for (int j = 0; j < bricksY; j++)
             {
-                if ((brickLive[i, j])&&(Breakout.collide((int)Balls.positionX, (int)Balls.positionY, Balls.size, Balls.size, i*width, j*height, width, height)))
+                if ((brickLive[i, j])&&(Breakout.collide((int)Ball.positionX, (int)Ball.positionY, Ball.size, Ball.size, i*width, j*height, width, height)))
                 {
-                    if (Breakout.collideY((int)Balls.positionX, (int)Balls.positionY, Balls.size, Balls.size, i * width, j * height, width, height))
+                    if (Breakout.collideY((int)Ball.positionX, (int)Ball.positionY, Ball.size, Ball.size, i * width, j * height, width, height))
                     {
                         brickLive[i, j] = false;
 
                         if (!revX)
                         {
-                            Balls.speedX = -(Balls.speedX);
+                            Ball.speedX = -(Ball.speedX);
                         }
                         revX = true;
                     }
@@ -80,7 +87,7 @@ class Bricks
 
                         if (!revY)
                         {
-                            Balls.speedY = -(Balls.speedY);
+                            //Balls.speedY = -(Balls.speedY);
                         }
                         revY = true;
                     }
