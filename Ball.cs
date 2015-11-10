@@ -7,23 +7,22 @@ using System.Text;
 
 public class Ball
 {
-
-    public static double positionX = 45;
-    public static double positionY = 190;
+    //Starting position of the ball
+    double x = 45;
+    double y = 190;
+    //size of the ball (diameter)
+    static int size = 7;
 
     //speed in pixels/sec
-    public static double speed = 2;
-    public static double theta = -Math.PI/4;
+    double speed = 2;
+    //angle of the ball
+    double theta = -Math.PI/4;
 
     //pause the ball after death
-    bool paused = false;
+    bool paused = true;
     //time in seconds to hold the ball in place
     double pauseTimer = 3;
-    readonly double defaultPauseTimer = 3;
-
-    public static int size = 7;
-
-    int ballsRemaining = 3;
+    
     bool dead = false;
 
     Texture2D ball;
@@ -36,7 +35,7 @@ public class Ball
     public void draw(AD2SpriteBatch sb)
     {
         if (!dead)
-            sb.drawTexture(ball, (int)positionX, (int)positionY);
+            sb.drawTexture(ball, (int)x, (int)y);
         else
             Utils.defaultFont.draw(sb, "Game Over", 40, 40, Color.Red, 4);
     }
@@ -45,29 +44,58 @@ public class Ball
     {
         if (!paused)
         {
+            //Break movements into small steps for edge collision
             int steps = (int)speed + 1;
             for (int step = 0; step != steps; step++)
             {
-                positionX += (Math.Cos(theta) * speed) / steps;
-                positionY += (Math.Sin(theta) * speed) / steps;
-
-                if ((positionX <= 0) || (positionX + size >= Breakout.stageWidth))
-                    theta = -(theta + -(Math.PI / 2)) + (Math.PI / 2);
-                if (positionY <= 0)
-                    theta = -(theta);
-                else if (positionY >= Breakout.baseHeight)
-                    ballOut();
+                
+                //Move the ball based on the angle
+                x += (Math.Cos(theta) * speed) / steps;
+                y += (Math.Sin(theta) * speed) / steps;
+                
+                //check for collision with the world
+                worldCollide(world);
+                //check for collision with the paddle
+                paddleCollide(world);
+                //Check for collision with bricks
                 bounceBallOffBricks(world);
             }
-        }else
+        }else //if the ball is being held after death
         {
+            //roll the pauseTimer 
             pauseTimer -= (double)ms/1000;
             if (pauseTimer <= 0)
             {
+                //The ball is released
                 paused = false;
-                pauseTimer = defaultPauseTimer;
             }
         }
+    }
+
+    private void worldCollide(Breakout world)
+    {
+        //check for vertical world collision
+        if ((x <= 0) || (x + size >= Breakout.stageWidth))
+            //reflect the x direction
+            flipThetaX();
+
+        //check for horizontal world collision
+        if (y <= 0)
+            //reflect the y direction
+            flipThetaY();
+        else if (y >= Breakout.baseHeight)
+            //if the ball is off the borrom, then it dies
+            ballOut(world);
+    }
+
+    private void flipThetaX()
+    {
+        theta = -(theta + -(Math.PI / 2)) + (Math.PI / 2);
+    }
+
+    private void flipThetaY()
+    {
+        theta = -(theta);
     }
 
     void bounceBallOffBricks(Breakout world)
@@ -76,12 +104,12 @@ public class Ball
         {
             for (int j = 0; j < Bricks.bricksY; j++)
             {
-                if ((world.bricks.brickLive[i, j])&& Breakout.collide((int)positionX, (int)positionY, size, size, i * Bricks.width + Bricks.spaceX, j * Bricks.height + Bricks.spaceY, Bricks.width, Bricks.height))
+                if ((world.bricks.brickLive[i, j])&& Breakout.collide((int)x, (int)y, size, size, i * Bricks.width + Bricks.spaceX, j * Bricks.height + Bricks.spaceY, Bricks.width, Bricks.height))
                 {
                     if ((topCollide(i, j)) || bottomCollide(i, j))
-                        theta = -(theta);
+                        flipThetaY();
                     else
-                        theta = -(theta + -(Math.PI / 2)) + (Math.PI / 2);
+                        flipThetaX();
                     world.bricks.brickLive[i, j] = false;
                     return;
                 }
@@ -91,25 +119,31 @@ public class Ball
 
     private bool topCollide(int i, int j)
     {
-        return Math.Sin(theta) > 0 && Breakout.collide((int)positionX, (int)positionY + size +- 1, size, 1, i * Bricks.width + Bricks.spaceX, j * Bricks.height + Bricks.spaceY, Bricks.width, 1);
+        return Math.Sin(theta) > 0 && Breakout.collide((int)x, (int)y + size +- 1, size, 1, i * Bricks.width + Bricks.spaceX, j * Bricks.height + Bricks.spaceY, Bricks.width, 1);
     }
 
     private bool bottomCollide(int i, int j)
     {
-        return Math.Sin(theta) < 0 && Breakout.collide((int)positionX, (int)positionY, size, 1, i * Bricks.width + Bricks.spaceX, j * Bricks.height + Bricks.spaceY + Bricks.height +- 1, Bricks.width, 1);
+        return Math.Sin(theta) < 0 && Breakout.collide((int)x, (int)y, size, 1, i * Bricks.width + Bricks.spaceX, j * Bricks.height + Bricks.spaceY + Bricks.height +- 1, Bricks.width, 1);
     }
 
-    void ballOut()
+    public void paddleCollide(Breakout world)
     {
-        if (ballsRemaining > 0)
+        if (Breakout.collide((int)x, (int)y + size - 1, size, 1, (int)world.player.x, world.player.y, world.player.width, 1))
         {
-            ballsRemaining--;
+            flipThetaY();
+        }
+    }
 
-            paused = true;
-            positionX = 45;
-            positionY = 190;
-            speed = 2;
-            theta = -Math.PI / 4;
+    void ballOut(Breakout world)
+    {
+        if (world.player.livesLeft > 0)
+        {
+            //Number of balls avaliable is lessened
+            world.player.livesLeft--;
+
+            //Remove a ball from the list
+            world.outOfBounds.AddLast(this);
         }
         else
             dead = true;

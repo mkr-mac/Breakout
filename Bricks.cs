@@ -65,6 +65,6 @@ public class Bricks
 
     public void update(Breakout world)
     {
-        
+        //Bricks are kinda boring
     }
 }
