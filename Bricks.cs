@@ -36,7 +36,7 @@ class Bricks
 
         for (int i = 0; i < bricksX; i++)
         {
-            for (int j = 0; j < bricksY; j++)
+            for (int j = 5; j < bricksY; j++)
             {
                 brickLive[i, j] = true;
                 brickColor[i, j] = Color.PaleGoldenrod;
@@ -89,7 +89,7 @@ class Bricks
 
                         if (!revY)
                         {
-                            //Balls.speedY = -(Balls.speedY);
+                            Ball.speedY = -(Ball.speedY);
                         }
                         revY = true;
                     }
