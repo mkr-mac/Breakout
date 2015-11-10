@@ -37,7 +37,7 @@ public class Ball
         if (!dead)
             sb.drawTexture(ball, (int)x, (int)y);
         else
-            Utils.defaultFont.draw(sb, "Game Over", 40, 40, Color.Red, 4);
+            Utils.defaultFont.draw(sb, "Game Over", 40, 40, Color.Red, 4, true);
     }
 
     public void update(Breakout world, int ms)
@@ -111,6 +111,7 @@ public class Ball
                     else
                         flipThetaX();
                     world.bricks.brickLive[i, j] = false;
+                    SoundManager.engine.Play2D(@"sounds\hit.wav");
                     return;
                 }
             }

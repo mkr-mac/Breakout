@@ -41,9 +41,9 @@ public class Breakout : AD2Game
     protected override void AD2Logic(int ms, KeyboardState keyboardState, GamePadState[] gamePadState)
     {
 
-        //lol hold to pause
+        //Kill the program if escape is pressed
         if (keyboardState.IsKeyDown(Keys.Escape))
-            return;
+            Exit();
 
         //update the bricks
         //doesn't do anything ATM
