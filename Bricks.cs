@@ -73,7 +73,7 @@ class Bricks
             {
                 if ((brickLive[i, j])&&(Breakout.collide((int)Ball.positionX, (int)Ball.positionY, Ball.size, Ball.size, i*width, j*height, width, height)))
                 {
-                    if (Breakout.collideY((int)Ball.positionX, (int)Ball.positionY, Ball.size, Ball.size, i * width, j * height, width, height))
+                    if (Breakout.collideY(Ball.positionX, Ball.positionY, Ball.size, Ball.size, i * width, j * height, width, height))
                     {
                         brickLive[i, j] = false;
 

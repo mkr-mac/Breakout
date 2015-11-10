@@ -50,7 +50,7 @@ public class Breakout : AD2Game
         return false;
     }
 
-    public static bool collideY(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
+    public static bool collideY(double x1, double y1, double w1, double h1, double x2, double y2, double w2, double h2)
     {
         //Ckeck for collision on the top or bottom
         //TODO: Fix this mess!
@@ -59,10 +59,10 @@ public class Breakout : AD2Game
             ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) < (y1 - ((y2 + (h2 / 2))) / (h2 / 2))) ||
             ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) > (((y2 + (h2 / 2)) - (y1 + w1)) / (h2 / 2))));
             */
-        return !((h2 / w2) * ((x1 + (w1/2)) - x2) + y1 >= y2 + (h1/2) &&
-            (-(h2) / w2) * ((x1 + (w1 / 2)) - x2) + (y1 + h2) >= y2 + (h1 / 2)) ||
-            ((h2 / w2) * ((x1 + (w1 / 2)) - x2) + y1 <= y2 + (h1 / 2) &&
-            (-(h2) / w2) * ((x1 + (w1 / 2)) - x2) + (y1 + h2) <= y2 + (h1 / 2));
+        return !((h2 / w2) * ((x1 + (w1/2)) - x2) + y2 >= y1 + (h1/2) &&
+            (-(h2) / w2) * ((x1 + (w1 / 2)) - x2) + (y2 + h2) >= y1 + (h1 / 2)) ||
+            ((h2 / w2) * ((x1 + (w1 / 2)) - x2) + y2 <= y1 + (h1 / 2) &&
+            (-(h2) / w2) * ((x1 + (w1 / 2)) - x2) + (y2 + h2) <= y1 + (h1 / 2));
     }
 
     protected override void AD2Logic(int ms, KeyboardState keyboardState, GamePadState[] gamePadState)
