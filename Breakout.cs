@@ -59,10 +59,10 @@ public class Breakout : AD2Game
             ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) < (y1 - ((y2 + (h2 / 2))) / (h2 / 2))) ||
             ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) > (((y2 + (h2 / 2)) - (y1 + w1)) / (h2 / 2))));
             */
-        return (-(h2 / w2) * ((x1 + (w1/2)) - x2) + y1 <= y2 + (h1/2) &&
-            (h2 / w2) * ((x1 + (w1 / 2)) - x2) + (y1 + h2) <= y2 + (h1 / 2)) ||
-            (-(h2 / w2) * ((x1 + (w1 / 2)) - x2) + y1 >= y2 + (h1 / 2) &&
-            (h2 / w2) * ((x1 + (w1 / 2)) - x2) + (y1 + h2) >= y2 + (h1 / 2));
+        return !((h2 / w2) * ((x1 + (w1/2)) - x2) + y1 >= y2 + (h1/2) &&
+            (-(h2) / w2) * ((x1 + (w1 / 2)) - x2) + (y1 + h2) >= y2 + (h1 / 2)) ||
+            ((h2 / w2) * ((x1 + (w1 / 2)) - x2) + y1 <= y2 + (h1 / 2) &&
+            (-(h2) / w2) * ((x1 + (w1 / 2)) - x2) + (y1 + h2) <= y2 + (h1 / 2));
     }
 
     protected override void AD2Logic(int ms, KeyboardState keyboardState, GamePadState[] gamePadState)
