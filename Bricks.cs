@@ -26,6 +26,8 @@ class Bricks
 
     //animation set for the bricks
     AnimationSet brick;
+    //speed of the animation (larger number = slower)
+    int animationSpeed = 5;
 
     public Bricks()
     {
@@ -43,7 +45,7 @@ class Bricks
 
         brick = new AnimationSet(@"brick\brick.xml");
         brick.autoAnimate("shimmer", 0);
-        brick.speed = 5;
+        brick.speed = animationSpeed;
     }
 
     public void draw(AD2SpriteBatch sb)

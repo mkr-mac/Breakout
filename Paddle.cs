@@ -14,21 +14,17 @@ class Paddle
 
     double speed = 2;
 
-    Texture2D background;
     Texture2D paddle;
 
     bool noStick = false;
 
     public Paddle()
     {
-
-        background = Utils.TextureLoader(@"vaporsky.png");
         paddle = Utils.TextureLoader(@"paddleNormal.png");
     }
 
     public void draw(AD2SpriteBatch sb)
     {
-        sb.drawTexture(background, 0, 0);
         sb.drawTexture(paddle, (int)positionX, (int)positionY);
     }
 

@@ -11,6 +11,8 @@ public class Breakout : AD2Game
     Bricks bricks;
     //the ball
     Ball ball;
+    //the backgound
+    Background bg;
 
     //speed the game runs at (1/gameSpeed = FPS)
     public static readonly int gameSpeed = 16;
@@ -50,10 +52,10 @@ public class Breakout : AD2Game
     {
         //Ckeck for collision on the top or bottom
         //TODO: Fix this mess!
-        return !(((x1 - (x2 + (w2 / 2))) / (w2 / 2)) > (((y2 + (h2 / 2)) - (y1 + h1)) / (h2 / 2)) ||
-            ((x1 - (x2 + (w2 / 2))) / (w2 / 2)) < ((y1 - (y2 - (h2 / 2))) / (h2 / 2)) ||
-            ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) > (y1 - ((y2 + (h2 / 2))) / (h2 / 2))) ||
-            ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) < (((y2 + (h2 / 2)) - (y1 + w1)) / (h2 / 2))));
+        return !(((x1 - (x2 + (w2 / 2))) / (w2 / 2)) < (((y2 + (h2 / 2)) - (y1 + h1)) / (h2 / 2)) ||
+            ((x1 - (x2 + (w2 / 2))) / (w2 / 2)) > ((y1 - (y2 - (h2 / 2))) / (h2 / 2)) ||
+            ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) < (y1 - ((y2 + (h2 / 2))) / (h2 / 2))) ||
+            ((((x2 + (w2 / 2)) - (x1 + w1)) / (w2 / 2)) > (((y2 + (h2 / 2)) - (y1 + w1)) / (h2 / 2))));
     }
 
     protected override void AD2Logic(int ms, KeyboardState keyboardState, GamePadState[] gamePadState)
@@ -72,6 +74,8 @@ public class Breakout : AD2Game
 
     protected override void AD2Draw(AD2SpriteBatch primarySpriteBatch)
     {
+        bg.draw(primarySpriteBatch);
+
         player.draw(primarySpriteBatch);
 
         bricks.draw(primarySpriteBatch);
@@ -86,6 +90,7 @@ public class Breakout : AD2Game
         //make bricks
         player = new Paddle();
         ball = new Ball();
+        bg = new Background();
 
         //starts music
         SoundManager.engine.Play2D(@"sounds\macplus.ogg", true);

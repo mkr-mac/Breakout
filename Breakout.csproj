@@ -53,6 +53,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Background.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="Paddle.cs" />
     <Compile Include="Breakout.cs" />
