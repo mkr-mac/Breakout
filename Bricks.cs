@@ -37,7 +37,7 @@ class Bricks
             for (int j = 0; j < bricksY; j++)
             {
                 brickLive[i, j] = true;
-                brickColor[i, j] = Color.SteelBlue;
+                brickColor[i, j] = Color.PaleGoldenrod;
             }
         }
 
