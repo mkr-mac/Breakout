@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-class Paddle
+public class Paddle
 {
     double positionX = 0;
     readonly int positionY = 200;
@@ -46,7 +46,7 @@ class Paddle
         if ((Breakout.collide((int)Ball.positionX, (int)Ball.positionY, Ball.size, Ball.size, (int)positionX, positionY, width, height)))
         {
             if(!noStick)
-                Ball.speedY = -(Ball.speedY);
+                Ball.theta = -(Ball.theta);
             noStick = true;
         }else
             noStick = false;
