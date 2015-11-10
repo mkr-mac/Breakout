@@ -34,9 +34,9 @@ public class Bricks
         brickLive = new bool[bricksX, bricksY];
         brickColor = new Color[bricksX, bricksY];
 
-        for (int i = 8; i < bricksX; i++)
+        for (int i = 0; i < bricksX; i++)
         {
-            for (int j = 5; j < bricksY; j++)
+            for (int j = 0; j < bricksY; j++)
             {
                 brickLive[i, j] = true;
                 brickColor[i, j] = Color.PaleGoldenrod;
