@@ -18,9 +18,6 @@ public class Ball
     //angle of the ball
     double theta = -Math.PI/4;
 
-    //prevents the ball from "sticking" to the paddle when the collisions line up oddly
-    bool noStick = false;
-
     //pause the ball after death
     bool paused = true;
     //time in seconds to hold the ball in place
@@ -136,12 +133,8 @@ public class Ball
     {
         if (Breakout.collide((int)x, (int)y + size - 1, size, 1, (int)world.player.x, world.player.y, world.player.width, 1) && Math.Sin(theta) > 0)
         {
-            //if (!noStick)
-                flipThetaY();
-            //noStick = true;
+            flipThetaY();
         }
-        //else
-            //noStick = false;
     }
 
     void ballOut(Breakout world)
