@@ -28,6 +28,8 @@ public class Ball
 
     Texture2D ball;
 
+    double maxReflect = Math.PI;
+
     public Ball()
     {
         ball = Utils.TextureLoader("ball.png");
@@ -133,7 +135,7 @@ public class Ball
     {
         if (Breakout.collide((int)x, (int)y + size - 1, size, 1, (int)world.player.x, world.player.y, world.player.width, 1) && Math.Sin(theta) > 0)
         {
-            flipThetaY();
+            theta = (((x + (size/2) +- world.player.x) / (world.player.width)) +- 1) * maxReflect;
         }
     }
 
