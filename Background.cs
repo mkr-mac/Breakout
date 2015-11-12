@@ -13,8 +13,8 @@ public class Background
         background = Utils.TextureLoader(@"vaporsky.png");
     }
 
-    public void draw(AD2SpriteBatch sb)
+    public void Draw(AD2SpriteBatch sb)
     {
-        sb.drawTexture(background, 0, 0);
+        sb.DrawTexture(background, 0, 0);
     }
 }

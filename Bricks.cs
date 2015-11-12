@@ -7,63 +7,63 @@ using System.Text;
 public class Bricks
 {
     //array of the state of the bricks
-    public bool[,] brickLive;
+    public bool[,] BrickLive;
     //array storing the colors of the bricks
-    Color[,] brickColor;
+    Color[,] BrickColor;
 
     //Number of bricks across
-    public static int bricksX = 12;
+    public static int BricksX = 12;
     //number of bricks high
-    public static int bricksY = 10;
+    public static int BricksY = 10;
 
     //Size of the bricks
-    public static int width = 20;
-    public static int height = 10;
+    public static int Width = 20;
+    public static int Height = 10;
 
     //extra spacing on the left side/top in the placement of bricks
-    public static int spaceX = 5;
-    public static int spaceY = 0;
+    public static int SpaceX = 5;
+    public static int SpaceY = 0;
 
     //animation set for the bricks
-    AnimationSet brick;
+    AnimationSet BrickAnimation;
     //speed of the animation (larger number = slower)
-    int animationSpeed = 5;
+    int AnimationSpeed = 5;
 
     public Bricks()
     {
-        brickLive = new bool[bricksX, bricksY];
-        brickColor = new Color[bricksX, bricksY];
+        BrickLive = new bool[BricksX, BricksY];
+        BrickColor = new Color[BricksX, BricksY];
 
-        for (int i = 0; i < bricksX; i++)
+        for (int i = 0; i < BricksX; i++)
         {
-            for (int j = 0; j < bricksY; j++)
+            for (int j = 0; j < BricksY; j++)
             {
-                brickLive[i, j] = true;
-                brickColor[i, j] = Color.PaleGoldenrod;
+                BrickLive[i, j] = true;
+                BrickColor[i, j] = Color.PaleGoldenrod;
             }
         }
 
-        brick = new AnimationSet(@"brick\brick.xml");
-        brick.autoAnimate("shimmer", 0);
-        brick.speed = animationSpeed;
+        BrickAnimation = new AnimationSet(@"brick\brick.xml");
+        BrickAnimation.AutoAnimate("shimmer", 0);
+        BrickAnimation.Speed = AnimationSpeed;
     }
 
-    public void draw(AD2SpriteBatch sb)
+    public void Draw(AD2SpriteBatch sb)
     {
-        brick.update();
-        for (int i = 0; i < bricksX; i++)
+        BrickAnimation.Update();
+        for (int i = 0; i < BricksX; i++)
         {
-            for (int j = 0; j < bricksY; j++)
+            for (int j = 0; j < BricksY; j++)
             {
-                if (brickLive[i, j])
+                if (BrickLive[i, j])
                 {
-                    brick.draw(sb, (i * width) + spaceX, (j * height) + spaceY, brickColor[i,j]);
+                    BrickAnimation.Draw(sb, (i * Width) + SpaceX, (j * Height) + SpaceY, BrickColor[i,j]);
                 }
             }
         }
     }
 
-    public void update(Breakout world)
+    public void Update(Breakout world)
     {
         //Bricks are kinda boring
     }

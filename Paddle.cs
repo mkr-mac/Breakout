@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +18,19 @@ public class Paddle
 
     public int livesLeft = 3;
 
-    Texture2D paddle;
+    Texture2D PaddleTexture;
 
     public Paddle()
     {
-        paddle = Utils.TextureLoader(@"paddleNormal.png");
+        PaddleTexture = Utils.TextureLoader(@"paddleNormal.png");
     }
 
-    public void draw(AD2SpriteBatch sb)
+    public void Draw(AD2SpriteBatch sb)
     {
-        sb.drawTexture(paddle, (int)x, y);
+        sb.DrawTexture(PaddleTexture, (int)x, y);
     }
 
-    public void update(Breakout world, Microsoft.Xna.Framework.Input.KeyboardState ks)
+    public void Update(Breakout world, Microsoft.Xna.Framework.Input.KeyboardState ks)
     {
         if ((ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left)) && (x > 0))
         {
@@ -37,11 +38,11 @@ public class Paddle
             if (x < 0)
                 x = 0;
         }
-        else if ((ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right))&& (x < Breakout.stageWidth - width))
+        else if ((ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right))&& (x < Breakout.StageWidth - width))
         {
             x += speed;
-            if (x > Breakout.stageWidth - width)
-                x = Breakout.stageWidth - width;
+            if (x > Breakout.StageWidth - width)
+                x = Breakout.StageWidth - width;
         }
     }
 }

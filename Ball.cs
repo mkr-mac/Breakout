@@ -1,156 +1,157 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 public class Ball
 {
     //Starting position of the ball
-    double x = 45;
-    double y = 190;
+    double PositionX = 45;
+    double PositionY = 190;
     //size of the ball (diameter)
-    static int size = 7;
+    static int Size = 7;
 
     //speed in pixels/sec
-    double speed = 2;
+    double Speed = 2;
     //angle of the ball
-    double theta = -Math.PI/4;
+    double Theta = -Math.PI/4;
 
     //pause the ball after death
-    bool paused = true;
+    bool Paused = true;
     //time in seconds to hold the ball in place
-    double pauseTimer = 3;
+    double PauseTimer = 3;
     
     //game over condition
-    bool dead = false;
+    static bool Dead = false;
 
-    Texture2D ball;
+    static int BallsLeft = 90000000;
 
-    double maxReflect = Math.PI;
+    Texture2D BallTexture;
+
+    double MaxReflect = Math.PI;
 
     public Ball()
     {
-        ball = Utils.TextureLoader("ball.png");
+        BallTexture = Utils.TextureLoader("ball.png");
     }
 
-    public void draw(AD2SpriteBatch sb)
+    public void Draw(AD2SpriteBatch sb)
     {
-        if (!dead)
-            sb.drawTexture(ball, (int)x, (int)y);
+        if (!Dead)
+            sb.DrawTexture(BallTexture, (int)PositionX, (int)PositionY);
         else
-            Utils.defaultFont.draw(sb, "Game Over", 40, 40, Color.Red, 4, true);
+            Utils.DefaultFont.draw(sb, "Game Over", 40, 40, Color.Red, 4, true);
+
+        Utils.DefaultFont.draw(sb, BallsLeft.ToString(), 250, 30, Color.White);
     }
 
-    public void update(Breakout world, int ms)
+    public void Update(Breakout world, int ms)
     {
-        if (!paused)
+        if (!Paused)
         {
             //Break movements into small steps for edge collision
-            int steps = (int)speed + 1;
+            int steps = (int)Speed + 1;
             for (int step = 0; step != steps; step++)
             {
                 
                 //Move the ball based on the angle
-                x += (Math.Cos(theta) * speed) / steps;
-                y += (Math.Sin(theta) * speed) / steps;
+                PositionX += (Math.Cos(Theta) * Speed) / steps;
+                PositionY += (Math.Sin(Theta) * Speed) / steps;
                 
                 //check for collision with the world
-                worldCollide(world);
+                WorldCollide(world);
                 //check for collision with the paddle
-                paddleCollide(world);
+                PaddleCollide(world);
                 //Check for collision with bricks
-                bounceBallOffBricks(world);
+                BounceBallOffBricks(world);
             }
         }else //if the ball is being held after death
         {
             //roll the pauseTimer 
-            pauseTimer -= (double)ms/1000;
-            if (pauseTimer <= 0)
+            PauseTimer -= (double)ms/1000;
+            if (PauseTimer <= 0)
             {
                 //The ball is released
-                paused = false;
+                Paused = false;
             }
         }
     }
 
-    private void worldCollide(Breakout world)
+    private void WorldCollide(Breakout world)
     {
         //check for vertical world collision
-        if ((x <= 0) || (x + size >= Breakout.stageWidth))
+        if ((PositionX <= 0) || (PositionX + Size >= Breakout.StageWidth))
             //reflect the x direction
-            flipThetaX();
+            FlipThetaX();
 
         //check for horizontal world collision
-        if (y <= 0)
+        if (PositionY <= 0)
             //reflect the y direction
-            flipThetaY();
-        else if (y >= Breakout.baseHeight)
+            FlipThetaY();
+        else if (PositionY > Breakout.BaseHeight)
             //if the ball is off the borrom, then it dies
-            ballOut(world);
+            BallOut(world);
     }
 
-    private void flipThetaX()
+    private void FlipThetaX()
     {
-        theta = -(theta + -(Math.PI / 2)) + (Math.PI / 2);
+        Theta = -(Theta + -(Math.PI / 2)) + (Math.PI / 2);
     }
 
-    private void flipThetaY()
+    private void FlipThetaY()
     {
-        theta = -(theta);
+        Theta = -(Theta);
     }
 
-    void bounceBallOffBricks(Breakout world)
+    void BounceBallOffBricks(Breakout world)
     {
-        for(int i = 0; i < Bricks.bricksX; i++)
+        for(int i = 0; i < Bricks.BricksX; i++)
         {
-            for (int j = 0; j < Bricks.bricksY; j++)
+            for (int j = 0; j < Bricks.BricksY; j++)
             {
-                if ((world.bricks.brickLive[i, j])&& Breakout.collide((int)x, (int)y, size, size, i * Bricks.width + Bricks.spaceX, j * Bricks.height + Bricks.spaceY, Bricks.width, Bricks.height))
+                if ((world.Bricks.BrickLive[i, j])&& Breakout.Collide((int)PositionX, (int)PositionY, Size, Size, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY, Bricks.Width, Bricks.Height))
                 {
-                    if ((topCollide(i, j)) || bottomCollide(i, j))
-                        flipThetaY();
+                    if ((TopCollide(i, j)) || BottomCollide(i, j))
+                        FlipThetaY();
                     else
-                        flipThetaX();
-                    world.bricks.brickLive[i, j] = false;
-                    SoundManager.engine.Play2D(@"sounds\hit.wav");
+                        FlipThetaX();
+                    world.Bricks.BrickLive[i, j] = false;
+                    SoundManager.Engine.Play2D(@"sounds\hit.wav");
                     return;
                 }
             }
         }
     }
 
-    private bool topCollide(int i, int j)
+    private bool TopCollide(int i, int j)
     {
-        return Math.Sin(theta) > 0 && Breakout.collide((int)x, (int)y + size +- 1, size, 1, i * Bricks.width + Bricks.spaceX, j * Bricks.height + Bricks.spaceY, Bricks.width, 1);
+        return Math.Sin(Theta) > 0 && Breakout.Collide((int)PositionX, (int)PositionY + Size +- 1, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY, Bricks.Width, 1);
     }
 
-    private bool bottomCollide(int i, int j)
+    private bool BottomCollide(int i, int j)
     {
-        return Math.Sin(theta) < 0 && Breakout.collide((int)x, (int)y, size, 1, i * Bricks.width + Bricks.spaceX, j * Bricks.height + Bricks.spaceY + Bricks.height +- 1, Bricks.width, 1);
+        return Math.Sin(Theta) < 0 && Breakout.Collide((int)PositionX, (int)PositionY, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY + Bricks.Height +- 1, Bricks.Width, 1);
     }
 
-    public void paddleCollide(Breakout world)
+    public void PaddleCollide(Breakout world)
     {
-        if (Breakout.collide((int)x, (int)y + size - 1, size, 1, (int)world.player.x, world.player.y, world.player.width, 1) && Math.Sin(theta) > 0)
+        if (Breakout.Collide((int)PositionX, (int)PositionY + Size - 1, Size, 1, (int)world.Player.x, world.Player.y, world.Player.width, 1) && Math.Sin(Theta) > 0)
         {
-            theta = (((x + (size/2) +- world.player.x) / (world.player.width)) +- 1) * maxReflect;
+            Theta = (((PositionX + (Size/2) +- world.Player.x) / (world.Player.width)) +- 1) * MaxReflect;
         }
     }
 
-    void ballOut(Breakout world)
+    void BallOut(Breakout world)
     {
-        if (world.player.livesLeft >= 0)
+        //Remove a ball from the list
+        world.OutOfBounds.AddLast(this);
+
+        if (BallsLeft > 0)
         {
             //Number of balls avaliable is lessened
-            world.player.livesLeft--;
-
-            //Remove a ball from the list
-            world.outOfBounds.AddLast(this);
+            BallsLeft--;
         }
         else
-            dead = true;
+            Dead = true;
             //Game Over!
     }
 }
