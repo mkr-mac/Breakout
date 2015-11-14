@@ -23,7 +23,7 @@ public class Ball
     //game over condition
     public static bool Dead = false;
 
-    static int BallsLeft = 0;
+    static int BallsLeft = 2;
 
     Texture2D BallTexture;
 
