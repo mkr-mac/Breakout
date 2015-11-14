@@ -1,46 +1,52 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 public class Paddle
 {
-    //paddle's X and Y position
-    public double x = 0;
-    public readonly int y = 200;
+    //The paddle's X and Y position.
+    public double PositionX;
+    public readonly int PositionY = 200;
 
-    public int width = 41;
-    public int height = 10;
+    //Size of the paddle.
+    public int Width = 41;
+    //Height isn't used currently.
+    //public int Height = 10;
 
-    double speed = 2;
+    //How fast the paddle moves.
+    double Speed = 2;
 
+    //Texture of the paddle.
     Texture2D PaddleTexture;
 
     public Paddle()
     {
+        //Center up the paddle on the stage to start.
+        PositionX = (Breakout.StageWidth / 2) +- (Width / 2);
+        //Load in the texture of the paddle.
         PaddleTexture = Utils.TextureLoader(@"paddleNormal.png");
     }
 
     public void Draw(AD2SpriteBatch sb)
     {
-        sb.DrawTexture(PaddleTexture, (int)x, y);
+        sb.DrawTexture(PaddleTexture, (int)PositionX, PositionY);
     }
 
     public void Update(InGame world, Microsoft.Xna.Framework.Input.KeyboardState ks)
     {
-        if ((ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left)) && (x > 0))
+        //Checking for input.
+        if ((ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left)) && (PositionX > 0))
         {
-            x -= speed;
-            if (x < 0)
-                x = 0;
+            PositionX -= Speed;
+            //The paddle can't go off the left side of the screen.
+            if (PositionX < 0)
+                PositionX = 0;
         }
-        else if ((ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right))&& (x < Breakout.StageWidth - width))
+        else if ((ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right))&& (PositionX < Breakout.StageWidth - Width))
         {
-            x += speed;
-            if (x > Breakout.StageWidth - width)
-                x = Breakout.StageWidth - width;
+            PositionX += Speed;
+            //The paddle can't go beyond the right side of the stage.
+            if (PositionX > Breakout.StageWidth - Width)
+                //If we try, We are set next to the edge.
+                PositionX = Breakout.StageWidth - Width;
         }
     }
 }

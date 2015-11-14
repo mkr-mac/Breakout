@@ -4,34 +4,37 @@ using System;
 
 public class Ball
 {
-    //Starting position of the ball
+    //Starting position of the ball.
     double PositionX = 45;
     double PositionY = 190;
-    //size of the ball (diameter)
+    //Size of the ball (diameter).
     static int Size = 7;
 
-    //speed in pixels/sec
+    //Speed in pixels/sec.
     double Speed = 2;
-    //angle of the ball
+    //Angle of the ball.
     double Theta = -Math.PI/4;
 
-    //pause the ball after death
+    //The maximum angle a ball can riccochet off the paddle.
+    //Unimplemented.
+    double MaxReflect = Math.PI;
+
+    //Pause the ball after death.
     bool Paused = true;
-    //time in seconds to hold the ball in place
+    //Time in seconds to hold the ball in place after death.
     double PauseTimer = 3;
     
-    //game over condition
+    //The game over condition.
     public static bool Dead = false;
-
+    //Number of balls remaining.
     static int BallsLeft = 2;
 
-    //For those times when the ball is not doing much
+    //For those times when the ball is not doing much.
     static double DontBeMadTimer;
     readonly double DontBeMadTimerDefault = 10;
-
+    
+    //The balls' texture.
     Texture2D BallTexture;
-
-    double MaxReflect = Math.PI;
 
     public Ball()
     {
@@ -43,6 +46,7 @@ public class Ball
     {
         sb.DrawTexture(BallTexture, (int)PositionX, (int)PositionY);
 
+        //Counter for balls left.
         Utils.DefaultFont.Draw(sb, BallsLeft.ToString(), 250, 30, Color.White);
 
         if (DontBeMadTimer < 0)
@@ -53,30 +57,31 @@ public class Ball
     {
         if (!Paused)
         {
-            //Break movements into small steps for edge collision
+            //Break movements into small steps for edge collision.
             int steps = (int)Speed + 1;
             DontBeMadTimer -= (double)ms / 1000;
             for (int step = 0; step != steps; step++)
             {
                 
-                //Move the ball based on the angle
+                //Move the ball based on the angle.
                 PositionX += (Math.Cos(Theta) * Speed) / steps;
                 PositionY += (Math.Sin(Theta) * Speed) / steps;
 
-                //check for collision with the world
+                //check for collision with the world.
                 if (WorldCollide(world))
                     return;
-                //check for collision with the paddle
+                //check for collision with the paddle.
                 PaddleCollide(world);
-                //Check for collision with bricks
+                //Check for collision with bricks.
                 BounceBallOffBricks(world);
             }
-        }else //if the ball is being held after death
+        }else //If the ball is being held after death,
         {
-            //roll the pauseTimer 
+            //roll the Pause Timer.
             PauseTimer -= (double)ms/1000;
+            //Has the Pause Timer expired?
             if (PauseTimer <= 0)
-                //The ball is released
+                //The ball is released.
                 Paused = false;
         }
     }
@@ -85,26 +90,28 @@ public class Ball
     {
         //check for vertical world collision
         if ((PositionX <= 0) || (PositionX + Size >= Breakout.StageWidth))
-            //reflect the x direction
+            //Hit a side! Reflect the x direction of the ball.
             FlipThetaX();
 
         //check for horizontal world collision
         if (PositionY <= 0)
-            //reflect the y direction
+            //Hit the top! Reflect the y direction of the ball.
             FlipThetaY();
         else if (PositionY > Breakout.BaseHeight)
-            //if the ball is off the borrom, then it dies
+            //if the ball is off the borrom, then it dies.
             BallOut(world);
         return PositionY > Breakout.BaseHeight;
     }
 
     void FlipThetaX()
     {
+        //Reflect the X direction of the ball.
         Theta = -(Theta + -(Math.PI / 2)) + (Math.PI / 2);
     }
 
     void FlipThetaY()
     {
+        //Reflect the Y direction of the ball.
         Theta = -(Theta);
     }
 
@@ -114,16 +121,26 @@ public class Ball
         {
             for (int j = 0; j < Bricks.BricksY; j++)
             {
+                //See if the ball is touching any of the bricks.
                 if ((world.Bricks.BrickLive[i, j])&& InGame.Collide((int)PositionX, (int)PositionY, Size, Size, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY, Bricks.Width, Bricks.Height))
                 {
+                    //Now check if the collision is on the top or bottom,
                     if ((TopCollide(i, j)) || BottomCollide(i, j))
+                        //If so, then reflect the Y direction of the ball.
                         FlipThetaY();
+                    //Otherwise, it can be assumed it hit on one of the sides,
                     else
+                        //and we can reflect the X direction.
                         FlipThetaX();
 
+                    //Kill the brick.
                     world.Bricks.BrickLive[i, j] = false;
+                    //Play the hit sound.
                     SoundManager.Engine.Play2D(@"sounds\hit.wav");
+                    //Reset the fun stuff.
                     DontBeMadTimer = DontBeMadTimerDefault;
+                    //It is assumed you can only hit one brick at a time.
+                    //This SHOULD be looked into, but I probably won't.
                     return;
                 }
             }
@@ -132,9 +149,9 @@ public class Ball
     
     public void PaddleCollide(InGame world)
     {
-        if (InGame.Collide((int)PositionX, (int)PositionY + Size - 1, Size, 1, (int)world.Player.x, world.Player.y, world.Player.width, 1) && Math.Sin(Theta) > 0)
+        if (InGame.Collide((int)PositionX, (int)PositionY + Size - 1, Size, 1, (int)world.Player.PositionX, world.Player.PositionY, world.Player.Width, 1) && Math.Sin(Theta) > 0)
         {
-            Theta = (((PositionX + (Size / 2) + -world.Player.x) / (world.Player.width)) + -1) * MaxReflect;
+            Theta = (((PositionX + (Size / 2) + -world.Player.PositionX) / (world.Player.Width)) + -1) * MaxReflect;
             DontBeMadTimer = DontBeMadTimerDefault;
         }
     }
