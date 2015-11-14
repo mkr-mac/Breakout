@@ -9,7 +9,7 @@ public class Breakout : AD2Game
     public InGame Game;
 
     public enum State { Title, InGame }
-    State GS;
+    State GameState;
 
     //speed the game runs at (1/gameSpeed = FPS)
     public static readonly int GameSpeed = 16;
@@ -32,14 +32,14 @@ public class Breakout : AD2Game
             Exit();
 
         State newState;
-        switch (GS)
+        switch (GameState)
         {
             case State.Title:
                 newState = T.Update(keyboardState);
                 if (newState == State.InGame)
                 {
                     SoundManager.Engine.StopAllSounds();
-                    GS = State.InGame;
+                    GameState = State.InGame;
                     Game = new InGame();
                 }
                 break;
@@ -50,7 +50,7 @@ public class Breakout : AD2Game
                 if (newState == State.Title)
                 {
                     SoundManager.Engine.StopAllSounds();
-                    GS = State.Title;
+                    GameState = State.Title;
                     T = new Title();
                 }
                 break;
@@ -59,7 +59,7 @@ public class Breakout : AD2Game
 
     protected override void AD2Draw(AD2SpriteBatch primarySpriteBatch)
     {
-        switch (GS)
+        switch (GameState)
         {
             case State.Title:
                 T.Draw(primarySpriteBatch);
@@ -72,7 +72,7 @@ public class Breakout : AD2Game
 
     protected override void AD2LoadContent()
     {
-        GS = State.Title;
+        GameState = State.Title;
         T = new Title();
     }
 }

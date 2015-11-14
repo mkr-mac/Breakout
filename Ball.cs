@@ -25,12 +25,17 @@ public class Ball
 
     static int BallsLeft = 2;
 
+    //For those times when the ball is not doing much
+    static double DontBeMadTimer;
+    readonly double DontBeMadTimerDefault = 10;
+
     Texture2D BallTexture;
 
     double MaxReflect = Math.PI;
 
     public Ball()
     {
+        DontBeMadTimer = DontBeMadTimerDefault;
         BallTexture = Utils.TextureLoader("ball.png");
     }
 
@@ -39,6 +44,9 @@ public class Ball
         sb.DrawTexture(BallTexture, (int)PositionX, (int)PositionY);
 
         Utils.DefaultFont.Draw(sb, BallsLeft.ToString(), 250, 30, Color.White);
+
+        if (DontBeMadTimer < 0)
+            Utils.DefaultFont.Draw(sb, "ENJOY THE MUSIC", 40, 212, Color.White, 2, true);
     }
 
     public void Update(InGame world, int ms)
@@ -47,6 +55,7 @@ public class Ball
         {
             //Break movements into small steps for edge collision
             int steps = (int)Speed + 1;
+            DontBeMadTimer -= (double)ms / 1000;
             for (int step = 0; step != steps; step++)
             {
                 
@@ -67,10 +76,8 @@ public class Ball
             //roll the pauseTimer 
             PauseTimer -= (double)ms/1000;
             if (PauseTimer <= 0)
-            {
                 //The ball is released
                 Paused = false;
-            }
         }
     }
 
@@ -113,11 +120,22 @@ public class Ball
                         FlipThetaY();
                     else
                         FlipThetaX();
+
                     world.Bricks.BrickLive[i, j] = false;
                     SoundManager.Engine.Play2D(@"sounds\hit.wav");
+                    DontBeMadTimer = DontBeMadTimerDefault;
                     return;
                 }
             }
+        }
+    }
+    
+    public void PaddleCollide(InGame world)
+    {
+        if (InGame.Collide((int)PositionX, (int)PositionY + Size - 1, Size, 1, (int)world.Player.x, world.Player.y, world.Player.width, 1) && Math.Sin(Theta) > 0)
+        {
+            Theta = (((PositionX + (Size / 2) + -world.Player.x) / (world.Player.width)) + -1) * MaxReflect;
+            DontBeMadTimer = DontBeMadTimerDefault;
         }
     }
 
@@ -129,14 +147,6 @@ public class Ball
     bool BottomCollide(int i, int j)
     {
         return Math.Sin(Theta) < 0 && InGame.Collide((int)PositionX, (int)PositionY, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY + Bricks.Height +- 1, Bricks.Width, 1);
-    }
-
-    public void PaddleCollide(InGame world)
-    {
-        if (InGame.Collide((int)PositionX, (int)PositionY + Size - 1, Size, 1, (int)world.Player.x, world.Player.y, world.Player.width, 1) && Math.Sin(Theta) > 0)
-        {
-            Theta = (((PositionX + (Size/2) +- world.Player.x) / (world.Player.width)) +- 1) * MaxReflect;
-        }
     }
 
     void BallOut(InGame world)
