@@ -28,7 +28,7 @@ public class Paddle
         sb.DrawTexture(PaddleTexture, (int)x, y);
     }
 
-    public void Update(Breakout world, Microsoft.Xna.Framework.Input.KeyboardState ks)
+    public void Update(InGame world, Microsoft.Xna.Framework.Input.KeyboardState ks)
     {
         if ((ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left)) && (x > 0))
         {

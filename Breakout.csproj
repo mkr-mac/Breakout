@@ -55,11 +55,13 @@
   <ItemGroup>
     <Compile Include="Background.cs" />
     <Compile Include="Ball.cs" />
+    <Compile Include="InGame.cs" />
     <Compile Include="Paddle.cs" />
     <Compile Include="Breakout.cs" />
     <Compile Include="Bricks.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Title.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="irrKlang.NET4">

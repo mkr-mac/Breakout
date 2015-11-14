@@ -38,10 +38,10 @@ public class Ball
     {
         sb.DrawTexture(BallTexture, (int)PositionX, (int)PositionY);
 
-        Utils.DefaultFont.draw(sb, BallsLeft.ToString(), 250, 30, Color.White);
+        Utils.DefaultFont.Draw(sb, BallsLeft.ToString(), 250, 30, Color.White);
     }
 
-    public void Update(Breakout world, int ms)
+    public void Update(InGame world, int ms)
     {
         if (!Paused)
         {
@@ -74,7 +74,7 @@ public class Ball
         }
     }
 
-    bool WorldCollide(Breakout world)
+    bool WorldCollide(InGame world)
     {
         //check for vertical world collision
         if ((PositionX <= 0) || (PositionX + Size >= Breakout.StageWidth))
@@ -101,13 +101,13 @@ public class Ball
         Theta = -(Theta);
     }
 
-    void BounceBallOffBricks(Breakout world)
+    void BounceBallOffBricks(InGame world)
     {
         for(int i = 0; i < Bricks.BricksX; i++)
         {
             for (int j = 0; j < Bricks.BricksY; j++)
             {
-                if ((world.Bricks.BrickLive[i, j])&& Breakout.Collide((int)PositionX, (int)PositionY, Size, Size, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY, Bricks.Width, Bricks.Height))
+                if ((world.Bricks.BrickLive[i, j])&& InGame.Collide((int)PositionX, (int)PositionY, Size, Size, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY, Bricks.Width, Bricks.Height))
                 {
                     if ((TopCollide(i, j)) || BottomCollide(i, j))
                         FlipThetaY();
@@ -123,23 +123,23 @@ public class Ball
 
     bool TopCollide(int i, int j)
     {
-        return Math.Sin(Theta) > 0 && Breakout.Collide((int)PositionX, (int)PositionY + Size +- 1, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY, Bricks.Width, 1);
+        return Math.Sin(Theta) > 0 && InGame.Collide((int)PositionX, (int)PositionY + Size +- 1, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY, Bricks.Width, 1);
     }
 
     bool BottomCollide(int i, int j)
     {
-        return Math.Sin(Theta) < 0 && Breakout.Collide((int)PositionX, (int)PositionY, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY + Bricks.Height +- 1, Bricks.Width, 1);
+        return Math.Sin(Theta) < 0 && InGame.Collide((int)PositionX, (int)PositionY, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY + Bricks.Height +- 1, Bricks.Width, 1);
     }
 
-    public void PaddleCollide(Breakout world)
+    public void PaddleCollide(InGame world)
     {
-        if (Breakout.Collide((int)PositionX, (int)PositionY + Size - 1, Size, 1, (int)world.Player.x, world.Player.y, world.Player.width, 1) && Math.Sin(Theta) > 0)
+        if (InGame.Collide((int)PositionX, (int)PositionY + Size - 1, Size, 1, (int)world.Player.x, world.Player.y, world.Player.width, 1) && Math.Sin(Theta) > 0)
         {
             Theta = (((PositionX + (Size/2) +- world.Player.x) / (world.Player.width)) +- 1) * MaxReflect;
         }
     }
 
-    void BallOut(Breakout world)
+    void BallOut(InGame world)
     {
         if (BallsLeft > 0)
             //Number of balls avaliable is lessened
