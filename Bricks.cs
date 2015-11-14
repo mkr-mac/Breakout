@@ -22,7 +22,7 @@ public class Bricks
 
     //extra spacing on the left side/top in the placement of bricks
     public static int SpaceX = 5;
-    public static int SpaceY = 0;
+    public static int SpaceY = 20;
 
     //animation set for the bricks
     AnimationSet BrickAnimation;

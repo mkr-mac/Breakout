@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 public class Breakout : AD2Game
@@ -57,7 +58,7 @@ public class Breakout : AD2Game
         foreach (Ball b in OutOfBounds)
         {
             Balls.Remove(b);
-            if(Balls.Count.Equals(0))
+            if (Balls.Count.Equals(0) && !Ball.Dead)
                 Balls.AddFirst(new Ball());
         }
     }
@@ -72,7 +73,9 @@ public class Breakout : AD2Game
 
         foreach (Ball b in Balls)
             b.Draw(primarySpriteBatch);
-        
+
+        if (Ball.Dead)
+            Utils.DefaultFont.draw(primarySpriteBatch, "Game Over", 25, 30, Color.Red, 4, true);
     }
 
     protected override void AD2LoadContent()

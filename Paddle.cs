@@ -16,8 +16,6 @@ public class Paddle
 
     double speed = 2;
 
-    public int livesLeft = 3;
-
     Texture2D PaddleTexture;
 
     public Paddle()

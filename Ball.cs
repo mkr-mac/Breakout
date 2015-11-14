@@ -21,9 +21,9 @@ public class Ball
     double PauseTimer = 3;
     
     //game over condition
-    static bool Dead = false;
+    public static bool Dead = false;
 
-    static int BallsLeft = 90000000;
+    static int BallsLeft = 0;
 
     Texture2D BallTexture;
 
@@ -36,10 +36,7 @@ public class Ball
 
     public void Draw(AD2SpriteBatch sb)
     {
-        if (!Dead)
-            sb.DrawTexture(BallTexture, (int)PositionX, (int)PositionY);
-        else
-            Utils.DefaultFont.draw(sb, "Game Over", 40, 40, Color.Red, 4, true);
+        sb.DrawTexture(BallTexture, (int)PositionX, (int)PositionY);
 
         Utils.DefaultFont.draw(sb, BallsLeft.ToString(), 250, 30, Color.White);
     }
@@ -56,9 +53,10 @@ public class Ball
                 //Move the ball based on the angle
                 PositionX += (Math.Cos(Theta) * Speed) / steps;
                 PositionY += (Math.Sin(Theta) * Speed) / steps;
-                
+
                 //check for collision with the world
-                WorldCollide(world);
+                if (WorldCollide(world))
+                    return;
                 //check for collision with the paddle
                 PaddleCollide(world);
                 //Check for collision with bricks
@@ -76,7 +74,7 @@ public class Ball
         }
     }
 
-    private void WorldCollide(Breakout world)
+    bool WorldCollide(Breakout world)
     {
         //check for vertical world collision
         if ((PositionX <= 0) || (PositionX + Size >= Breakout.StageWidth))
@@ -90,14 +88,15 @@ public class Ball
         else if (PositionY > Breakout.BaseHeight)
             //if the ball is off the borrom, then it dies
             BallOut(world);
+        return PositionY > Breakout.BaseHeight;
     }
 
-    private void FlipThetaX()
+    void FlipThetaX()
     {
         Theta = -(Theta + -(Math.PI / 2)) + (Math.PI / 2);
     }
 
-    private void FlipThetaY()
+    void FlipThetaY()
     {
         Theta = -(Theta);
     }
@@ -122,12 +121,12 @@ public class Ball
         }
     }
 
-    private bool TopCollide(int i, int j)
+    bool TopCollide(int i, int j)
     {
         return Math.Sin(Theta) > 0 && Breakout.Collide((int)PositionX, (int)PositionY + Size +- 1, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY, Bricks.Width, 1);
     }
 
-    private bool BottomCollide(int i, int j)
+    bool BottomCollide(int i, int j)
     {
         return Math.Sin(Theta) < 0 && Breakout.Collide((int)PositionX, (int)PositionY, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY + Bricks.Height +- 1, Bricks.Width, 1);
     }
@@ -142,16 +141,14 @@ public class Ball
 
     void BallOut(Breakout world)
     {
-        //Remove a ball from the list
-        world.OutOfBounds.AddLast(this);
-
         if (BallsLeft > 0)
-        {
             //Number of balls avaliable is lessened
             BallsLeft--;
-        }
         else
             Dead = true;
             //Game Over!
+
+        //Remove a ball from the list
+        world.OutOfBounds.AddLast(this);
     }
 }

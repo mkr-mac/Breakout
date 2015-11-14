@@ -6,15 +6,15 @@ using System.Text;
 
 public class Background
 {
-    Texture2D background;
+    Texture2D BackgroundTexture;
 
     public Background()
     {
-        background = Utils.TextureLoader(@"vaporsky.png");
+        BackgroundTexture = Utils.TextureLoader(@"vaporsky.png");
     }
 
     public void Draw(AD2SpriteBatch sb)
     {
-        sb.DrawTexture(background, 0, 0);
+        sb.DrawTexture(BackgroundTexture, 0, 0);
     }
 }
