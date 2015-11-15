@@ -27,7 +27,8 @@ public class Ball
     //The game over condition.
     public static bool Dead = false;
     //Number of balls remaining.
-    static int BallsLeft = 2;
+    public static int BallsLeft = 2;
+    public static readonly int BallsLeftStart = 2;
 
     //For those times when the ball is not doing much.
     static double DontBeMadTimer;
@@ -147,7 +148,7 @@ public class Ball
         }
     }
     
-    public void PaddleCollide(InGame world)
+    void PaddleCollide(InGame world)
     {
         if (InGame.Collide((int)PositionX, (int)PositionY + Size - 1, Size, 1, (int)world.Player.PositionX, world.Player.PositionY, world.Player.Width, 1) && Math.Sin(Theta) > 0)
         {

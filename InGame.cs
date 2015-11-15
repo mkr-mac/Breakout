@@ -24,7 +24,7 @@ public class InGame
         SoundManager.Engine.Play2D(@"sounds\macplus.ogg");
     }
 
-    private void Load()
+    void Load()
     {
         //Load all of the classes.
         Bricks = new Bricks();
@@ -36,6 +36,8 @@ public class InGame
 
         //Give ourselves a ball to get going.
         Balls.AddLast(new Ball());
+        Ball.Dead = false;
+        Ball.BallsLeft = Ball.BallsLeftStart;
     }
 
     public Breakout.State Update(int ms, KeyboardState keyboardState)
@@ -61,9 +63,16 @@ public class InGame
                 Balls.AddFirst(new Ball());
         }
         //If you suck at the game and get Game Over,
-        if (Ball.Dead && keyboardState.IsKeyDown(Keys.Enter))
-            //You can push the Enter button to return to the title screen.
-            return Breakout.State.Title;
+        if (keyboardState.IsKeyDown(Keys.Enter))
+        {
+            if (Ball.Dead && !Breakout.EnterIsHeld)
+            {
+                Breakout.EnterIsHeld = true;
+                //You can push the Enter button to return to the title screen.
+                return Breakout.State.Title;
+            }
+        }else
+            Breakout.EnterIsHeld = false;
 
         //Here to keep us coming back!
         return Breakout.State.InGame;

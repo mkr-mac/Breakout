@@ -18,6 +18,7 @@ public class Breakout : AD2Game
     public static readonly int BaseHeight = 224;
     public static readonly int StageWidth = 250;
 
+    public static bool EnterIsHeld = false;
 
     public Breakout() : base(BaseWidth, BaseHeight, GameSpeed)
     {
