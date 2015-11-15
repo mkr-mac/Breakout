@@ -7,7 +7,7 @@ public class Paddle
     public readonly int PositionY = 200;
 
     //Size of the paddle.
-    public int Width = 41;
+    public int Width = 41 ;
     //Height isn't used currently.
     //public int Height = 10;
 

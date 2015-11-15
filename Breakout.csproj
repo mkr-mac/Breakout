@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Background.cs" />
     <Compile Include="Ball.cs" />
+    <Compile Include="GUI.cs" />
     <Compile Include="InGame.cs" />
     <Compile Include="Paddle.cs" />
     <Compile Include="Breakout.cs" />

@@ -26,11 +26,13 @@ public class Title
         //Press Enter to go on to the game.
         if (ks.IsKeyDown(Keys.Enter))
         {
-            if(!Breakout.EnterIsHeld)
+            if (!Breakout.EnterIsHeld)
+            {
+                Breakout.EnterIsHeld = true;
                 return Breakout.State.InGame;
-
-            Breakout.EnterIsHeld = true;
-        }else
+            }
+        }
+        else
             Breakout.EnterIsHeld = false;
 
         //If enter is not pressed, stay on the title screen.

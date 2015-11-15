@@ -10,6 +10,8 @@ public class InGame
     public Bricks Bricks;
     //The backgound.
     public Background Background;
+    //The GUI.
+    public GUI GUI;
 
     //List of Balls in play.
     public LinkedList<Ball> Balls;
@@ -30,6 +32,7 @@ public class InGame
         Bricks = new Bricks();
         Player = new Paddle();
         Background = new Background();
+        GUI = new GUI();
         //The lists too!
         Balls = new LinkedList<Ball>();
         OutOfBounds = new LinkedList<Ball>();
@@ -38,6 +41,7 @@ public class InGame
         Balls.AddLast(new Ball());
         Ball.Dead = false;
         Ball.BallsLeft = Ball.BallsLeftStart;
+        Ball.Points = 0;
     }
 
     public Breakout.State Update(int ms, KeyboardState keyboardState)
@@ -82,6 +86,8 @@ public class InGame
     {
         //Draw the background.
         Background.Draw(sb);
+        //Draw the GUI.
+        GUI.Draw(sb);
         //Draw the player's paddle.
         Player.Draw(sb);
         //Draw the bricks.

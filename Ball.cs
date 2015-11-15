@@ -19,15 +19,18 @@ public class Ball
     //Unimplemented.
     double MaxReflect = Math.PI;
 
+    //The total points.
+    public static int Points = 0;
+
     //Pause the ball after death.
     bool Paused = true;
     //Time in seconds to hold the ball in place after death.
     double PauseTimer = 3;
-    
+
     //The game over condition.
     public static bool Dead = false;
     //Number of balls remaining.
-    public static int BallsLeft = 2;
+    public static int BallsLeft;
     public static readonly int BallsLeftStart = 2;
 
     //For those times when the ball is not doing much.
@@ -46,9 +49,6 @@ public class Ball
     public void Draw(AD2SpriteBatch sb)
     {
         sb.DrawTexture(BallTexture, (int)PositionX, (int)PositionY);
-
-        //Counter for balls left.
-        Utils.DefaultFont.Draw(sb, BallsLeft.ToString(), 250, 30, Color.White);
 
         if (DontBeMadTimer < 0)
             Utils.DefaultFont.Draw(sb, "ENJOY THE MUSIC", 40, 212, Color.White, 2, true);
@@ -134,6 +134,8 @@ public class Ball
                         //and we can reflect the X direction.
                         FlipThetaX();
 
+                    //Get points
+                    Points++;
                     //Kill the brick.
                     world.Bricks.BrickLive[i, j] = false;
                     //Play the hit sound.
