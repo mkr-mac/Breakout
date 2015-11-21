@@ -48,10 +48,7 @@ public class InGame
         Balls.AddLast(new Ball());
 
         for (int i = 1; Level.ContainsKey("brick" + i.ToString()); i++)
-        {
             Bricks.AddLast(new Brick(i));
-            Console.Out.WriteLine("brick");
-        }
 
         Ball.Dead = false;
         Ball.BallsLeft = Ball.BallsLeftStart;

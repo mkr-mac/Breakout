@@ -160,7 +160,6 @@ public class Ball
             if (!ReflectedX)
             {
                 FlipThetaX();
-                ReflectedX = true;
             }else
                 ReflectedX = false;
             DontBeMadTimer = DontBeMadTimerDefault;
