@@ -157,11 +157,12 @@ public class Ball
         if (InGame.Collide((int)PositionX, (int)PositionY + Size - 1, Size, 1, (int)world.Player.PositionX, world.Player.PositionY, world.Player.Width, 1) && Math.Sin(Theta) > 0)
         {
             Theta = (((PositionX + (Size / 2) + -world.Player.PositionX) / (world.Player.Width)) + -1) * MaxReflect;
-            if (ReflectedX)
+            if (!ReflectedX)
             {
                 FlipThetaX();
+                ReflectedX = true;
+            }else
                 ReflectedX = false;
-            }
             DontBeMadTimer = DontBeMadTimerDefault;
         }
     }
@@ -173,7 +174,7 @@ public class Ball
 
     bool BottomCollide(Brick br)
     {
-        return Math.Sin(Theta) < 0 && InGame.Collide((int)PositionX, (int)PositionY, Size, 1, br.PositionX, br.PositionY +- 1, br.Width, 1);
+        return Math.Sin(Theta) < 0 && InGame.Collide((int)PositionX, (int)PositionY, Size, 1, br.PositionX, br.PositionY + br.Height +- 1, br.Width, 1);
     }
 
     void BallOut(InGame world)

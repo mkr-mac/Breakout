@@ -27,8 +27,8 @@ public class Brick
 
     public Brick()
     {
-        PositionX = 1;
-        PositionY = 1;
+        PositionX = 65;
+        PositionY = 150;
         
         BrickColor = Color.PaleGoldenrod;
         BrickAnimation = new AnimationSet(@"brick\brick.xml");
