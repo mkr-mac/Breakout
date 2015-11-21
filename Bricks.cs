@@ -28,9 +28,9 @@ public class Brick
 
     public Brick(int i)
     {
-        string[] d = InGame.Level["brick" + i].First.ToString().Split(',');
-            PositionX = int.Parse(d[1]);
-            PositionY = int.Parse(d[2]);
+        string[] d = InGame.Level["brick" + i.ToString()].First.ToString().Split(',');
+            PositionX = int.Parse(d[0]);
+            PositionY = int.Parse(d[1]);
         BrickColor = Color.PaleGoldenrod;
         BrickAnimation = new AnimationSet(@"brick\brick.xml");
         BrickAnimation.AutoAnimate("shimmer", 0);

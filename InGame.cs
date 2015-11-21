@@ -47,7 +47,7 @@ public class InGame
         //Give ourselves a ball to get going.
         Balls.AddLast(new Ball());
 
-        for (int i = 1; Level.ContainsKey("brick" + i); i++)
+        for (int i = 1; Level.ContainsKey("brick" + i.ToString()); i++)
         {
             Bricks.AddLast(new Brick(i));
             Console.Out.WriteLine("brick");
