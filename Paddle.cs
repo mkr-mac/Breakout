@@ -33,7 +33,10 @@ public class Paddle
     public void Update(InGame world, Microsoft.Xna.Framework.Input.KeyboardState ks)
     {
         //Checking for input.
-        if ((ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left)) && (PositionX > 0))
+        if (ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left) && (ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right)))
+        {
+        }
+        else if ((ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left)) && (PositionX > 0))
         {
             PositionX -= Speed;
             //The paddle can't go off the left side of the screen.
