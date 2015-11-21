@@ -8,18 +8,13 @@ public class Brick
     public bool BrickLive = true;
     //Array of the colors of the bricks.
     Color BrickColor;
-
-    public int Position;
+    
     public int PositionX;
     public int PositionY;
 
     //Size of the bricks.
     public int Width = 20;
     public int Height = 10;
-    
-    //Extra spacing on the left side/top in the placement of bricks.
-    //public static int SpaceX = 5;
-    //public static int SpaceY = 20;
 
     //Animation set for the bricks.
     AnimationSet BrickAnimation;
@@ -33,6 +28,7 @@ public class Brick
             PositionX = int.Parse(a.Split(',')[0].Trim());
             PositionY = int.Parse(a.Split(',')[1].Trim());
         }
+
         BrickColor = Color.PaleGoldenrod;
         BrickAnimation = new AnimationSet(@"brick\brick.xml");
         BrickAnimation.AutoAnimate("shimmer", 0);
