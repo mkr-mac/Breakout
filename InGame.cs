@@ -6,8 +6,6 @@ public class InGame
 {
     //The player's paddle.
     public Paddle Player;
-    //The bricks.
-    public Bricks Bricks;
     //The backgound.
     public Background Background;
     //The GUI.
@@ -17,6 +15,11 @@ public class InGame
     public LinkedList<Ball> Balls;
     //List of balls that need to be removed.
     public LinkedList<Ball> OutOfBounds;
+
+    //List of Bricks.
+    public LinkedList<Brick> Bricks;
+    //List of bricks that need to be removed.
+    public LinkedList<Brick> DeadBricks;
 
     public InGame()
     {
@@ -29,16 +32,18 @@ public class InGame
     void Load()
     {
         //Load all of the classes.
-        Bricks = new Bricks();
         Player = new Paddle();
         Background = new Background();
         GUI = new GUI();
         //The lists too!
         Balls = new LinkedList<Ball>();
         OutOfBounds = new LinkedList<Ball>();
+        Bricks = new LinkedList<Brick>();
+        DeadBricks = new LinkedList<Brick>();
 
         //Give ourselves a ball to get going.
         Balls.AddLast(new Ball());
+        Bricks.AddLast(new Brick());
         Ball.Dead = false;
         Ball.BallsLeft = Ball.BallsLeftStart;
         Ball.Points = 0;
@@ -48,7 +53,7 @@ public class InGame
     {
         //Update the bricks.
         //They don't do anything at the moment...
-        //bricks.update(this);
+        //Brick.Update(this);
 
         //Update the player.
         Player.Update(this, keyboardState);
@@ -90,8 +95,10 @@ public class InGame
         GUI.Draw(sb);
         //Draw the player's paddle.
         Player.Draw(sb);
+
         //Draw the bricks.
-        Bricks.Draw(sb);
+        foreach(Brick br in Bricks)
+            br.Draw(sb);
 
         //Draw all the balls.
         foreach (Ball b in Balls)

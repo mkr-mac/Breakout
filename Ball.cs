@@ -123,34 +123,31 @@ public class Ball
 
     void BounceBallOffBricks(InGame world)
     {
-        for(int i = 0; i < Bricks.BricksX; i++)
+        foreach (Brick br in world.Bricks)
         {
-            for (int j = 0; j < Bricks.BricksY; j++)
+            //See if the ball is touching any of the bricks.
+            if ((br.BrickLive) && InGame.Collide((int)PositionX, (int)PositionY, Size, Size, br.PositionX, br.PositionY, br.Width, br.Height))
             {
-                //See if the ball is touching any of the bricks.
-                if ((world.Bricks.BrickLive[i, j])&& InGame.Collide((int)PositionX, (int)PositionY, Size, Size, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY, Bricks.Width, Bricks.Height))
-                {
-                    //Now check if the collision is on the top or bottom,
-                    if ((TopCollide(i, j)) || BottomCollide(i, j))
-                        //If so, then reflect the Y direction of the ball.
-                        FlipThetaY();
-                    //Otherwise, it can be assumed it hit on one of the sides,
-                    else
-                        //and we can reflect the X direction.
-                        FlipThetaX();
+                //Now check if the collision is on the top or bottom,
+                if ((TopCollide(br)) || BottomCollide(br))
+                    //If so, then reflect the Y direction of the ball.
+                    FlipThetaY();
+                //Otherwise, it can be assumed it hit on one of the sides,
+                else
+                    //and we can reflect the X direction.
+                    FlipThetaX();
 
-                    //Get points
-                    Points++;
-                    //Kill the brick.
-                    world.Bricks.BrickLive[i, j] = false;
-                    //Play the hit sound.
-                    SoundManager.Engine.Play2D(@"sounds\hit.wav");
-                    //Reset the fun stuff.
-                    DontBeMadTimer = DontBeMadTimerDefault;
-                    //It is assumed you can only hit one brick at a time.
-                    //This SHOULD be looked into, but I probably won't.
-                    return;
-                }
+                //Get points
+                Points++;
+                //Kill the brick.
+                br.BrickLive = false;
+                //Play the hit sound.
+                SoundManager.Engine.Play2D(@"sounds\hit.wav");
+                //Reset the fun stuff.
+                DontBeMadTimer = DontBeMadTimerDefault;
+                //It is assumed you can only hit one brick at a time.
+                //This SHOULD be looked into, but I probably won't.
+                return;
             }
         }
     }
@@ -169,14 +166,14 @@ public class Ball
         }
     }
 
-    bool TopCollide(int i, int j)
+    bool TopCollide(Brick br)
     {
-        return Math.Sin(Theta) > 0 && InGame.Collide((int)PositionX, (int)PositionY + Size +- 1, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY, Bricks.Width, 1);
+        return Math.Sin(Theta) > 0 && InGame.Collide((int)PositionX, (int)PositionY + Size +- 1, Size, 1, br.PositionX, br.PositionY, br.Width, 1);
     }
 
-    bool BottomCollide(int i, int j)
+    bool BottomCollide(Brick br)
     {
-        return Math.Sin(Theta) < 0 && InGame.Collide((int)PositionX, (int)PositionY, Size, 1, i * Bricks.Width + Bricks.SpaceX, j * Bricks.Height + Bricks.SpaceY + Bricks.Height +- 1, Bricks.Width, 1);
+        return Math.Sin(Theta) < 0 && InGame.Collide((int)PositionX, (int)PositionY, Size, 1, br.PositionX, br.PositionY +- 1, br.Width, 1);
     }
 
     void BallOut(InGame world)

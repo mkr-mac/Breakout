@@ -1,44 +1,36 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
-public class Bricks
+public class Brick
 {
     //Boolean array of the state of the bricks.
-    public bool[,] BrickLive;
+    public bool BrickLive = true;
     //Array of the colors of the bricks.
-    Color[,] BrickColor;
+    Color BrickColor;
 
-    //Number of bricks across the screen.
-    public static int BricksX = 12;
-    //Number of bricks high.
-    public static int BricksY = 10;
+    public int Position;
+    public int PositionX;
+    public int PositionY;
 
     //Size of the bricks.
-    public static int Width = 20;
-    public static int Height = 10;
+    public int Width = 20;
+    public int Height = 10;
 
     //Extra spacing on the left side/top in the placement of bricks.
-    public static int SpaceX = 5;
-    public static int SpaceY = 20;
+    //public static int SpaceX = 5;
+    //public static int SpaceY = 20;
 
     //Animation set for the bricks.
     AnimationSet BrickAnimation;
     //Speed of the animation (larger number = slower).
     int AnimationSpeed = 5;
 
-    public Bricks()
+    public Brick()
     {
-        BrickLive = new bool[BricksX, BricksY];
-        BrickColor = new Color[BricksX, BricksY];
-
-        for (int i = 0; i < BricksX; i++)
-        {
-            for (int j = 0; j < BricksY; j++)
-            {
-                BrickLive[i, j] = true;
-                BrickColor[i, j] = Color.PaleGoldenrod;
-            }
-        }
-
+        PositionX = 1;
+        PositionY = 1;
+        
+        BrickColor = Color.PaleGoldenrod;
         BrickAnimation = new AnimationSet(@"brick\brick.xml");
         BrickAnimation.AutoAnimate("shimmer", 0);
         BrickAnimation.Speed = AnimationSpeed;
@@ -49,20 +41,11 @@ public class Bricks
         //Update the brick animation.
         BrickAnimation.Update();
         //Now go through all the bricks and draw those that are alive.
-        for (int i = 0; i < BricksX; i++)
-        {
-            for (int j = 0; j < BricksY; j++)
-            {
-                if (BrickLive[i, j])
-                {
-                    BrickAnimation.Draw(sb, (i * Width) + SpaceX, (j * Height) + SpaceY, BrickColor[i,j]);
-                }
-            }
-        }
+        if (BrickLive)
+            BrickAnimation.Draw(sb, PositionX, PositionY, BrickColor);
     }
 
-    public void Update(Breakout world)
+    public void Update(InGame world)
     {
-        //Bricks are kinda boring
     }
 }
