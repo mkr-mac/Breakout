@@ -29,7 +29,7 @@ public class InGame
         //Load the game's content.
         Load();
         //Start the music!!
-        SoundManager.Engine.Play2D(@"sounds\macplus.ogg");
+        SoundManager.Play("macplus.ogg");
     }
 
     void Load()

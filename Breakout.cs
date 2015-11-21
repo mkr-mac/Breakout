@@ -43,7 +43,7 @@ public class Breakout : AD2Game
                 if (newState == State.InGame)
                 {
                     //Kill title screen sounds,
-                    SoundManager.Engine.StopAllSounds();
+                    SoundManager.Stop();
                     //and let the games begin!
                     GameState = State.InGame;
                     Game = new InGame();
@@ -57,7 +57,7 @@ public class Breakout : AD2Game
                 if (newState == State.Title)
                 {
                     //Kill the game's sounds.
-                    SoundManager.Engine.StopAllSounds();
+                    SoundManager.Stop();
                     //Go back to the title screen.
                     GameState = State.Title;
                     T = new Title();

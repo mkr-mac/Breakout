@@ -142,7 +142,7 @@ public class Ball
                 //Kill the brick.
                 br.BrickLive = false;
                 //Play the hit sound.
-                SoundManager.Engine.Play2D(@"sounds\hit.wav");
+                SoundManager.Play("hit.wav");
                 //Reset the fun stuff.
                 DontBeMadTimer = DontBeMadTimerDefault;
                 //It is assumed you can only hit one brick at a time.
