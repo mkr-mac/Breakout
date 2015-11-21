@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 public class Brick
 {
@@ -15,7 +16,7 @@ public class Brick
     //Size of the bricks.
     public int Width = 20;
     public int Height = 10;
-
+    
     //Extra spacing on the left side/top in the placement of bricks.
     //public static int SpaceX = 5;
     //public static int SpaceY = 20;
@@ -25,11 +26,11 @@ public class Brick
     //Speed of the animation (larger number = slower).
     int AnimationSpeed = 5;
 
-    public Brick()
+    public Brick(int i)
     {
-        PositionX = 65;
-        PositionY = 150;
-        
+        string[] d = InGame.Level["brick" + i].First.ToString().Split(',');
+            PositionX = int.Parse(d[1]);
+            PositionY = int.Parse(d[2]);
         BrickColor = Color.PaleGoldenrod;
         BrickAnimation = new AnimationSet(@"brick\brick.xml");
         BrickAnimation.AutoAnimate("shimmer", 0);

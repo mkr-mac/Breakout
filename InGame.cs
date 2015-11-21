@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using System;
 
 public class InGame
 {
@@ -15,6 +16,8 @@ public class InGame
     public LinkedList<Ball> Balls;
     //List of balls that need to be removed.
     public LinkedList<Ball> OutOfBounds;
+
+    public static Dictionary<string, LinkedList<string>> Level;
 
     //List of Bricks.
     public LinkedList<Brick> Bricks;
@@ -40,10 +43,16 @@ public class InGame
         OutOfBounds = new LinkedList<Ball>();
         Bricks = new LinkedList<Brick>();
         DeadBricks = new LinkedList<Brick>();
-
+        Level = Utils.GetXMLEntriesHash(@"level1.xml");
         //Give ourselves a ball to get going.
         Balls.AddLast(new Ball());
-        Bricks.AddLast(new Brick());
+
+        for (int i = 1; Level.ContainsKey("brick" + i); i++)
+        {
+            Bricks.AddLast(new Brick(i));
+            Console.Out.WriteLine("brick");
+        }
+
         Ball.Dead = false;
         Ball.BallsLeft = Ball.BallsLeftStart;
         Ball.Points = 0;
