@@ -23,10 +23,10 @@ public class Brick
 
     public Brick(int i)
     {
-        foreach (string a in InGame.Level["brick" + i.ToString()])
+        foreach (string a in InGame.Level["brick" + i])
         {
-            PositionX = int.Parse(a.Split(',')[0].Trim());
-            PositionY = int.Parse(a.Split(',')[1].Trim());
+            PositionX = int.Parse(a.Split(',')[0]);
+            PositionY = int.Parse(a.Split(',')[1]);
         }
 
         BrickColor = Color.PaleGoldenrod;
