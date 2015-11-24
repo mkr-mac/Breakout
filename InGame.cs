@@ -26,13 +26,12 @@ public class InGame
 
     public InGame()
     {
-        //Load the game's content.
-        Load();
+        LoadGameContent();
         //Start the music!!
         SoundManager.Play("macplus.ogg");
     }
 
-    void Load()
+    void LoadGameContent()
     {
         //Load all of the classes.
         Player = new Paddle();
@@ -47,8 +46,8 @@ public class InGame
         //Give ourselves a ball to get going.
         Balls.AddLast(new Ball());
 
-        for (int i = 1; Level.ContainsKey("brick" + i); i++)
-            Bricks.AddLast(new Brick(i));
+        foreach (string a in Level["brick"])
+            Bricks.AddLast(new Brick(a));
 
         Ball.Dead = false;
         Ball.BallsLeft = Ball.BallsLeftStart;

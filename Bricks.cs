@@ -21,13 +21,10 @@ public class Brick
     //Speed of the animation (larger number = slower).
     int AnimationSpeed = 5;
 
-    public Brick(int i)
+    public Brick(string a)
     {
-        foreach (string a in InGame.Level["brick" + i])
-        {
-            PositionX = int.Parse(a.Split(',')[0]);
-            PositionY = int.Parse(a.Split(',')[1]);
-        }
+        PositionX = int.Parse(a.Split(',')[0]);
+        PositionY = int.Parse(a.Split(',')[1]);
 
         BrickColor = Color.PaleGoldenrod;
         BrickAnimation = new AnimationSet(@"brick\brick.xml");
