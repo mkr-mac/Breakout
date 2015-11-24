@@ -11,6 +11,7 @@ public class Brick
     
     public int PositionX;
     public int PositionY;
+    public string BrickType;
 
     //Size of the bricks.
     public int Width = 20;
@@ -27,8 +28,20 @@ public class Brick
 
         PositionX = int.Parse(a[0]);
         PositionY = int.Parse(a[1]);
+        BrickType = a[2];
 
-        BrickColor = Color.PaleGoldenrod;
+        switch (BrickType)
+        {
+            case ("normal"):
+            default:
+                BrickColor = Color.PaleGoldenrod;
+                break;
+
+            case ("blue"):
+                BrickColor = Color.CornflowerBlue;
+                break;
+        }
+
         BrickAnimation = new AnimationSet(@"brick\brick.xml");
         BrickAnimation.AutoAnimate("shimmer", 0);
         BrickAnimation.Speed = AnimationSpeed;

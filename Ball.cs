@@ -27,9 +27,6 @@ public class Ball
     //Time in seconds to hold the ball in place after death.
     double PauseTimer = 3;
 
-    //Preventing a bug when the ball hits the paddle and wall
-    bool ReflectedX = false;
-
     //The game over condition.
     public static bool Dead = false;
     //Number of balls remaining.
@@ -94,11 +91,8 @@ public class Ball
     {
         //check for vertical world collision
         if ((PositionX <= 0) || (PositionX + Size >= Breakout.StageWidth))
-        {
             //Hit a side! Reflect the x direction of the ball.
             FlipThetaX();
-            ReflectedX = true;
-        }
         //check for horizontal world collision
         if (PositionY <= 0)
             //Hit the top! Reflect the y direction of the ball.
@@ -138,7 +132,16 @@ public class Ball
                     FlipThetaX();
 
                 //Get points
-                Points++;
+                switch (br.BrickType)
+                {
+                    case ("normal"):
+                        Points++;
+                        break;
+
+                    case ("blue"):
+                        Points += 2;
+                        break;
+                }
                 //Kill the brick.
                 br.BrickLive = false;
                 //Play the hit sound.
@@ -157,11 +160,6 @@ public class Ball
         if (InGame.Collide((int)PositionX, (int)PositionY + Size - 1, Size, 1, (int)world.Player.PositionX, world.Player.PositionY, world.Player.Width, 1) && Math.Sin(Theta) > 0)
         {
             Theta = (((PositionX + (Size / 2) + -world.Player.PositionX) / (world.Player.Width)) + -1) * MaxReflect;
-            if (!ReflectedX)
-            {
-                FlipThetaX();
-            }else
-                ReflectedX = true;
 
             DontBeMadTimer = DontBeMadTimerDefault;
         }
