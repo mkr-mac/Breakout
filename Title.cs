@@ -10,7 +10,7 @@ public class Title
     public Title()
     {
         //Texture loaded in for the Title screen.
-        TitleSreen = Utils.TextureLoader(@"vaporsky.png");
+        TitleSreen = Utils.TextureLoader(@"title.png");
     }
 
     public void Draw(AD2SpriteBatch sb)
@@ -18,7 +18,7 @@ public class Title
         //Draw the title screen.
         sb.DrawTexture(TitleSreen, 0, 0, Breakout.BaseWidth, Breakout.BaseHeight);
 
-        Utils.DefaultFont.Draw(sb, "PRESS ENTER TO BEGIN", 35, 160, Color.White, 2, true);
+        Utils.DefaultFont.Draw(sb, "PRESS ENTER TO BEGIN", 40, 140, Color.White, 2, true);
     }
 
     public Breakout.State Update(KeyboardState ks)

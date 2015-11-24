@@ -37,7 +37,7 @@ public class Ball
     public static readonly int BallsLeftStart = 2;
 
     //For those times when the ball is not doing much.
-    static double DontBeMadTimer;
+    double DontBeMadTimer;
     readonly double DontBeMadTimerDefault = 10;
     
     //The balls' texture.
@@ -161,7 +161,8 @@ public class Ball
             {
                 FlipThetaX();
             }else
-                ReflectedX = false;
+                ReflectedX = true;
+
             DontBeMadTimer = DontBeMadTimerDefault;
         }
     }
