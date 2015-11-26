@@ -34,7 +34,7 @@ public class Brick
         {
             case ("normal"):
             default:
-                BrickColor = Color.PaleGoldenrod;
+                BrickColor = Color.Khaki;
                 break;
 
             case ("blue"):
